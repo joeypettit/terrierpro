@@ -3,7 +3,7 @@ const ProfileCircle: React.FC = () => {
 
   return (
     <div
-      className="w-16 h-16 rounded-full overflow-hidden cursor-pointer shadow-lg"
+      className="w-12 h-12 rounded-full overflow-hidden cursor-pointer shadow-lg"
       onClick={() => null}
     >
       <img

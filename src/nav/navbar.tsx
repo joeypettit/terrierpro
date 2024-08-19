@@ -119,29 +119,29 @@ function LargeScreenNavBar() {
   };
 
   return (
-    <div className="flex flex-col justify-start">
-      <div className="p-3 flex justify-between border-b-2 shadow-sm bg-slate-100">
+    <div className="flex flex-col justify-start h-screen">
+      <div className="px-3 py-4 flex justify-between border-b-2 shadow-sm bg-slate-50">
         <Link to="/loadboost">
           <div className="flex flex-start flex-row items-center">
             <img
               src="/assets/tp-logo-blue.png"
               alt="Terrier Pro App Icon"
-              style={{ height: "4rem", width: "4rem" }}
+              style={{ height: "3rem", width: "3rem" }}
             />
             <span className="p-2 text-3xl ">TerrierPro™</span>
           </div>
         </Link>
         <ProfileCircle />
       </div>
-      <div className="flex flex-row ">
+      <div className="flex flex-row h-full">
         <nav
-          className={`shadow-md ${
-            isOpen ? "w-36" : "w-0"
-          } h-screen transition-all duration-300 bg-slate-100`}
+          className={` bg-slate-50 shadow-md ${
+            isOpen ? "w-32" : "w-0"
+          } transition-all duration-300 `}
         >
           <div className="relative">
             <div
-              className="p-1 absolute -right-8 top-1 bg-slate-100 rounded-lg shadow-lg border-2"
+              className="p-1 absolute -right-8 top-1 bg-slate-50 rounded-lg shadow-lg border-2"
               onClick={toggleSidebar}
             >
               {isOpen ? <BsChevronDoubleLeft /> : <BsChevronDoubleRight />}
@@ -158,10 +158,10 @@ function LargeScreenNavBar() {
                   <Link to={link.to}>
                     <div
                       className="
-                      pl-3 pr-4 py-3
+                      pl-1 pr-1 py-3
                       flex flex-row justify-between
                       group
-                      hover:bg-slate-100"
+                      hover:bg-slate-50"
                     >
                       <div className="group-hover:text-gray-700">
                         {link.icon}
@@ -174,7 +174,7 @@ function LargeScreenNavBar() {
             })}
           </ul>
         </nav>
-        <div>
+        <div className="px-2 py-2">
           <Outlet />
         </div>
       </div>
@@ -188,7 +188,7 @@ function SmallScreenNavBar() {
       <div className="h-full">
         <Outlet />
       </div>
-      <div className="pb-2 pt-1 px-2 border-t-2 shadow-sm fixed bottom-0 bg-slate-100">
+      <div className="pb-2 pt-1 px-2 border-t-2 shadow-sm fixed bottom-0 bg-slate-50">
         <nav className="w-screen p-1">
           <ul className="flex flex-row justify-around items-end">
             {links.map((link, index) => {

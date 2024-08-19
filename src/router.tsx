@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import TerrierProNavBar from "./nav/navbar.tsx";
 import ErrorPage from "./error-page.tsx";
-import LoadBoostPanel from "./routes/loadboost-panel.tsx";
+import LoadBoostPanel from "./routes/loadboost/loadboost-panel.tsx";
 import LoadsPanel from "./routes/loads-panel.tsx";
 import TripsPanel from "./routes/trips-panel.tsx";
 
