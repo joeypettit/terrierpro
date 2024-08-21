@@ -2,7 +2,18 @@ import data from "./loadboost-test-data.json";
 import DataTable from "../../components/panel-table";
 import Badge from "../../components/badge";
 
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import {
+  decrement,
+  increment,
+  incrementByAmount,
+  selectCount,
+} from "../../redux/slices/loadsSlice";
+
 const LoadBoostPanel = () => {
+  const dispatch = useAppDispatch();
+  const count = useAppSelector(selectCount);
+
   const columnParams = {
     name: {
       visible: true,
@@ -39,6 +50,26 @@ const LoadBoostPanel = () => {
 
   return (
     <section>
+      <div>
+        sj;lkasdjf;lkasdjf;lkjasd;lfjasd;lkfjasd;lkfjasd;lkfjasd;lkfjs;lk
+      </div>
+      <button
+        className="p-4"
+        onClick={() => {
+          dispatch(decrement());
+        }}
+      >
+        -
+      </button>
+      <button
+        className="p-4"
+        onClick={() => {
+          dispatch(increment());
+        }}
+      >
+        +
+      </button>
+      <p>state is: {count}</p>
       <DataTable
         data={data["dogTreats"]}
         columnParams={columnParams}

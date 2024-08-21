@@ -1,28 +1,24 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import type { Action, ThunkAction } from "@reduxjs/toolkit";
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import loadsReducer from "./slices/loadsSlice";
 
-// Create a simple counter slice
-const counterSlice = createSlice({
-  name: "counter",
-  initialState: { value: 0 },
-  reducers: {
-    increment: (state) => {
-      state.value += 1;
-    },
-    decrement: (state) => {
-      state.value -= 1;
-    },
-  },
+const rootReducer = combineReducers({
+  loads: loadsReducer,
 });
 
-export const { increment, decrement } = counterSlice.actions;
-
-const store = configureStore({
-  reducer: {
-    counter: counterSlice.reducer,
-  },
+export const store = configureStore({
+  reducer: rootReducer,
 });
 
-export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch;
-
-export default store;
+// Infer the type of `store`
+export type AppStore = typeof store;
+export type RootState = ReturnType<AppStore["getState"]>;
+// Infer the `AppDispatch` type from the store itself
+export type AppDispatch = AppStore["dispatch"];
+// Define a reusable type describing thunk functions
+export type AppThunk<ThunkReturnType = void> = ThunkAction<
+  ThunkReturnType,
+  RootState,
+  unknown,
+  Action
+>;
