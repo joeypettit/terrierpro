@@ -1,28 +1,27 @@
-interface ColumnParams<T> {
-  visible?: boolean;
-  order?: number;
+export interface PanelTableColumn<T> {
+  columnName: string;
+  dataObjectKey?: keyof T | undefined | null;
+  isVisible?: boolean;
   headerRenderer?: () => React.ReactNode;
-  cellRenderer?: (value: T) => React.ReactNode;
+  cellRenderer?: (rowData: T) => React.ReactNode;
 }
 
-interface TableProps<T extends object> {
+export interface TableProps<T> {
   data: T[];
-  columnParams?: {
-    [key in keyof T]?: ColumnParams<T[key]>;
-  };
+  columns?: PanelTableColumn<T>[];
   onRowClick?: (row: T) => void; // Optional function to handle row clicks
 }
 
 function DataTable<T extends object>({
   data,
-  columnParams = {},
+  columns = [],
   onRowClick,
 }: TableProps<T>) {
   if (!data || data.length === 0) {
     return <p>No data available</p>;
   }
 
-  let columns = Object.keys(data[0]) as (keyof T)[];
+  // let columns = Object.keys(data[0]) as (keyof T)[];
   // columns = filterNonVisibleColumns(columns);
   // columns = determineColumnOrder(columns);
 
@@ -40,44 +39,51 @@ function DataTable<T extends object>({
   // }
 
   // function filterNonVisibleColumns(columns: (keyof T)[]) {
-  //   return columns.filter((key) => columnParams[key]?.visible !== false);
+  //   return columns.filter((key) => !== false);
   // }
 
-  // function renderHeader(header: keyof T, index: number) {
-  //   const headerRenderer = columnParams[header]?.headerRenderer;
-  //   return (
-  //     <th key={index} className="px-4 py-2 border-b border-gray-400">
-  //       {headerRenderer ? headerRenderer() : String(header)}
-  //     </th>
-  //   );
-  // }
+  function renderHeader(column: PanelTableColumn<T>, index: number) {
+    if (column.isVisible === false) return;
+    const headerRenderer = column?.headerRenderer;
+    return (
+      <th key={index} className="px-4 py-2 border-b border-gray-400">
+        {headerRenderer ? headerRenderer() : column.columnName}
+      </th>
+    );
+  }
 
-  // function renderCellContents(header: keyof T, row: T, cellIndex: number) {
-  //   const cellData = row[header];
-  //   const cellRenderer = columnParams[header]?.cellRenderer;
+  function renderCellContents(
+    column: PanelTableColumn<T>,
+    row: T,
+    cellIndex: number
+  ) {
+    if (column.isVisible === false) return;
+    const cellRenderer = column?.cellRenderer;
 
-  //   return (
-  //     <td key={cellIndex} className="px-4 py-2">
-  //       {cellRenderer ? cellRenderer(cellData) : String(cellData)}
-  //     </td>
-  //   );
-  // }
+    return (
+      <td key={cellIndex} className="px-4 py-2">
+        {cellRenderer
+          ? cellRenderer(row)
+          : String(column.dataObjectKey ? row[column.dataObjectKey] : "")}
+      </td>
+    );
+  }
 
   return (
     <table className="min-w-full table-auto">
       <thead>
-        {/* <tr>{columns.map((header, index) => renderHeader(header, index))}</tr> */}
+        <tr>{columns.map((column, index) => renderHeader(column, index))}</tr>
       </thead>
       <tbody>
-        {data.map((row, rowIndex) => (
+        {data.map((rowData, rowIndex) => (
           <tr
             key={rowIndex}
-            onClick={() => onRowClick && onRowClick(row)}
+            onClick={() => onRowClick && onRowClick(rowData)}
             className="cursor-pointer bg-gray-white odd:bg-blue-50 hover:bg-blue-100 active:shadow-inner"
           >
-            {/* {columns.map((header, cellIndex) =>
-              renderCellContents(header, row, cellIndex)
-            )} */}
+            {columns.map((column, cellIndex) =>
+              renderCellContents(column, rowData, cellIndex)
+            )}
           </tr>
         ))}
       </tbody>

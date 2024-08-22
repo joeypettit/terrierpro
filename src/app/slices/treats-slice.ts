@@ -17,19 +17,8 @@ export const counterSlice = createSlice({
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
     getTreats: (state) => {
-      const jsonTreats = jsonData["dogTreats"];
-      const dogTreats: Treat[] = jsonTreats.map(
-        (item) =>
-          new Treat(
-            item.name,
-            item.flavor,
-            item.size as "Small" | "Medium" | "Large",
-            item.calories,
-            item.ingredients,
-            item.location
-          )
-      );
-      return dogTreats;
+      const jsonTreats: Treat[] = jsonData["dogTreats"];
+      return jsonTreats;
     },
   },
 });

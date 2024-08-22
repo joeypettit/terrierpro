@@ -1,4 +1,4 @@
-const ProfileCircle: React.FC = () => {
+function ProfileCircle() {
   const imageUrl = "/assets/userprofile-test.jpg";
 
   return (
@@ -13,6 +13,6 @@ const ProfileCircle: React.FC = () => {
       />
     </div>
   );
-};
+}
 
 export default ProfileCircle;
