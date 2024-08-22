@@ -115,68 +115,92 @@ function LargeScreenNavBar() {
   const [isOpen, setIsOpen] = useState(true);
 
   const toggleSidebar = () => {
+    console.log("TOGGLE");
     setIsOpen(!isOpen);
   };
 
   return (
-    <div className="flex flex-col justify-start h-screen">
-      <div className="px-3 py-4 flex justify-between border-b-2 shadow-sm bg-slate-50">
-        <Link to="/loadboost">
-          <div className="flex flex-start flex-row items-center">
-            <img
-              src="/assets/tp-logo-blue.png"
-              alt="Terrier Pro App Icon"
-              style={{ height: "3rem", width: "3rem" }}
-            />
-            <span className="p-2 text-3xl ">TerrierPro™</span>
-          </div>
-        </Link>
+    <div className="flex flex-row justify-start h-screen relative">
+      <div className="py-2 px-4 absolute right-0 bg-slate-50 rounded shadow">
         <ProfileCircle />
       </div>
-      <div className="flex flex-row h-full">
-        <nav
-          className={` bg-slate-50 shadow-md ${
-            isOpen ? "w-32" : "w-0"
-          } transition-all duration-300 `}
+      <div className="flex flex-col bg-slate-50 shadow-sm">
+        <div
+          className={`
+            pt-3
+            ${isOpen ? "w-32" : "w-12"} transition-all duration-300`}
         >
-          <div className="relative">
-            <div
-              className="p-1 absolute -right-8 top-1 bg-slate-50 rounded-lg shadow-lg border-2"
-              onClick={toggleSidebar}
-            >
-              {isOpen ? <BsChevronDoubleLeft /> : <BsChevronDoubleRight />}
+          <Link to="/loadboost">
+            <div className="flex flex-start flex-col items-center relative">
+              <button
+                className="p-1 bg-blue-100 absolute border border-blue-200 rounded-full -bottom-1 -right-2 shadow-lg"
+                onClick={toggleSidebar}
+              >
+                {isOpen ? (
+                  <BsChevronDoubleLeft size=".6rem" />
+                ) : (
+                  <BsChevronDoubleRight size=".6rem" />
+                )}
+              </button>
+              <img
+                src="/assets/tp-logo-blue.png"
+                alt="Terrier Pro App Icon"
+                style={{ height: "2.5rem", width: "2.5rem" }}
+              />
+              <div style={{ height: "50px" }}>
+                <span
+                  className={`${
+                    isOpen ? "block" : "hidden"
+                  } p-2 text-xl transition-all duration-300`}
+                >
+                  TerrierPro™
+                </span>
+              </div>
             </div>
-          </div>
-          <ul
-            className={`${
-              isOpen ? "block" : "hidden"
-            } transition-all duration-300`}
-          >
+          </Link>
+        </div>
+        <nav>
+          <ul>
             {links.map((link, index) => {
               return (
-                <li key={index}>
-                  <Link to={link.to}>
-                    <div
-                      className="
+                <>
+                  <hr className="mx-2" />
+                  <li key={index}>
+                    <Link to={link.to}>
+                      <div
+                        className={`
                       pl-1 pr-1 py-3
-                      flex flex-row justify-between
+                      flex flex-row 
                       group
-                      hover:bg-slate-50"
-                    >
-                      <div className="group-hover:text-gray-700">
-                        {link.icon}
+                      hover:bg-slate-100 ${
+                        isOpen ? "justify-between" : "justify-center"
+                      }`}
+                      >
+                        <div
+                          className={`${
+                            isOpen ? "" : "flex justify-center"
+                          } transition-all duration-300 group-hover:text-gray-700`}
+                        >
+                          {link.icon}
+                        </div>
+                        <div
+                          className={`${
+                            isOpen ? "block" : "hidden"
+                          } transition-all duration-300`}
+                        >
+                          {link.label}
+                        </div>
                       </div>
-                      <div>{link.label}</div>
-                    </div>
-                  </Link>
-                </li>
+                    </Link>
+                  </li>
+                </>
               );
             })}
           </ul>
         </nav>
-        <div className="px-2 py-2">
-          <Outlet />
-        </div>
+      </div>
+      <div className="w-full h-full">
+        <Outlet />
       </div>
     </div>
   );
