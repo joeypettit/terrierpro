@@ -1,18 +1,12 @@
-import data from "./loadboost-test-data.json";
 import DataTable from "../../components/panel-table";
 import Badge from "../../components/badge";
 
-import { useAppDispatch, useAppSelector } from "../../hooks";
-import {
-  decrement,
-  increment,
-  incrementByAmount,
-  selectCount,
-} from "../../redux/slices/loadsSlice";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { selectAllTreats, getTreats } from "../../app/slices/treats-slice";
 
 const LoadBoostPanel = () => {
   const dispatch = useAppDispatch();
-  const count = useAppSelector(selectCount);
+  const treats = useAppSelector(selectAllTreats);
 
   const columnParams = {
     name: {
@@ -56,22 +50,14 @@ const LoadBoostPanel = () => {
       <button
         className="p-4"
         onClick={() => {
-          dispatch(decrement());
-        }}
-      >
-        -
-      </button>
-      <button
-        className="p-4"
-        onClick={() => {
-          dispatch(increment());
+          dispatch(getTreats());
         }}
       >
         +
       </button>
-      <p>state is: {count}</p>
+      <p>state is: {treats.map((treat) => treat.calories)}</p>
       <DataTable
-        data={data["dogTreats"]}
+        data={treats}
         columnParams={columnParams}
         onRowClick={(row) => console.log("Row Click", row)}
       />
